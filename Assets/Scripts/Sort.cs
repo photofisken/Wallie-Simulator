@@ -22,6 +22,6 @@ public class Sort : MonoBehaviour
 
     private void SetZ()
     {
-        transform.position -= new Vector3(0f, 0f, (transform.position.y + sr.bounds.size.y / 2f) / 10f);
+        transform.position = new Vector3(transform.position.x, transform.position.y, (transform.position.y + sr.bounds.size.y / 2f) / 10f);
     }
 }
