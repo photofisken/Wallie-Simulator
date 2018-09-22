@@ -6,6 +6,8 @@ public class Sort : MonoBehaviour
 {
     [SerializeField]
     private bool dynamic;
+    [SerializeField]
+    private float yOffset;
     private SpriteRenderer sr;
 
 	void Start ()
@@ -22,6 +24,11 @@ public class Sort : MonoBehaviour
 
     private void SetZ()
     {
-        transform.position = new Vector3(transform.position.x, transform.position.y, (transform.position.y + sr.bounds.size.y / 2f) / 10f);
+        sr.sortingOrder = Mathf.RoundToInt(transform.position.y + yOffset);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireSphere(transform.position + new Vector3(0f, yOffset, 0f), 1f);
     }
 }
