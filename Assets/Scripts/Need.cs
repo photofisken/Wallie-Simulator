@@ -10,20 +10,23 @@ public class Need : MonoBehaviour
     public float value = 1f;
     public float time = 60f;
 
-    public float refreshTime;
-    public float refreshTimer;
+    private CatBehaviour cb;
 
-    public bool refresh;
+    private void Start()
+    {
+        cb = GetComponent<CatBehaviour>();
+    }
 
     private void Update()
     {
-        if (refresh)
+        if (cb.type == NodeType.standard)
         {
-            refreshTimer += Time.deltaTime / refreshTime;
-            if (refreshTimer >= 1f)
+            value -= Time.deltaTime / time;
+            value = Mathf.Clamp01(value);
+
+            if (value <= 0.01f)
             {
-                refresh = false;
-                GetComponent<CatBehaviour>().action = CatAction.idle;
+                GetComponent<CatBehaviour>().NeedType(type);
             }
         }
     }

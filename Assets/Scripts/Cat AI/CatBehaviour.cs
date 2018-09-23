@@ -14,6 +14,8 @@ public class CatBehaviour : MonoBehaviour
     public CatAction action = CatAction.idle;
     public NodeType type = NodeType.standard;
 
+    private Need[] needs;
+
     [Header("AI")]
     [SerializeField]
     private CatNode current;
@@ -29,34 +31,23 @@ public class CatBehaviour : MonoBehaviour
     [SerializeField]
     private float busyTimer = 1f;
 
-    [Header("Needs")]
-    private Need[] needs;
+    [SerializeField]
+    private Sprite[] sprites;
+    private SpriteRenderer sr;
 
     private void Start()
     {
+        sr = GetComponent<SpriteRenderer>();
         nodes = FindObjectsOfType<CatNode>();
         needs = GetComponents<Need>();
     }
 
     private void Update ()
     {
-        foreach (Need need in needs)
-        {
-            need.value -= Time.deltaTime / need.time;
-            need.value = Mathf.Clamp01(need.value);
-
-            if (need.value <= 0.01f && type == NodeType.standard)
-            {
-                decideTime = Random.Range(3f, 6f);
-                type = need.type;
-                Decide();
-                return;
-            }
-        }
-
         switch(action)
         {
             case CatAction.idle:
+                sr.sprite = sprites[1];
                 decideTime -= Time.deltaTime;
                 if (decideTime <= 0f)
                 {
@@ -66,19 +57,53 @@ public class CatBehaviour : MonoBehaviour
                 break;
 
             case CatAction.busy:
-                busyTimer -= Time.deltaTime;
-                if(busyTimer <= 0f)
+                sr.sprite = sprites[1];
+                float time = 1f;
+                switch(type)
                 {
-                    action = CatAction.idle;
+                    case NodeType.food:
+                        time = 5f;
+                        needs[0].value = 1f;
+                        break;
+                    case NodeType.pee:
+                        time = 5f;
+                        needs[1].value = 1f;
+                        break;
+                    case NodeType.sleep:
+                        time = 2f;
+                        needs[2].value = 1f;
+                        break;
+                }
 
+                if (current.ready)
+                {
+                    busyTimer -= Time.deltaTime / time;
+                    if (busyTimer <= 0f)
+                    {
+                        action = CatAction.idle;
+                        type = NodeType.standard;
+                        current.Use();
+                        decideTime = 1f;
+                    }
+                }
+                else
+                {
+                    Debug.Log("Complain");
                 }
                 break;
 
             case CatAction.walking:
+                sr.sprite = sprites[0];
                 if(path.Count > 0)
                     Walk();
                 break;
         }
+    }
+
+    public void NeedType(NodeType type)
+    {
+        this.type = type;
+        Decide();
     }
 
     private void Decide()
@@ -181,13 +206,13 @@ public class CatBehaviour : MonoBehaviour
 
     private void Walk()
     {
-        Vector3 dir = path[0].transform.position - transform.position;
+        Vector3 dir = path[0].transform.position + path[0].offset - transform.position;
         dir.Normalize();
 
         GetComponent<SpriteRenderer>().flipX = dir.x < 0f;
 
         transform.position += dir / 6f;
-        if(Vector3.Distance(transform.position, path[0].transform.position) < 1f)
+        if(Vector3.Distance(transform.position, path[0].transform.position + path[0].offset) < 1f)
         {
             if (path[0] == target)
             {
@@ -196,7 +221,7 @@ public class CatBehaviour : MonoBehaviour
                 else
                 {
                     action = CatAction.busy;
-                    busyTimer = 10f;
+                    busyTimer = 1f;
                 }
             }
             current = path[0];
