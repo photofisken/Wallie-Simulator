@@ -11,8 +11,12 @@ public class Player_Controller : MonoBehaviour {
 
     private SpriteRenderer sr;
 
-	void Start () {
+    public InteractObject[] interactables;
+
+	void Start ()
+    {
         sr = GetComponent<SpriteRenderer>();
+        interactables = FindObjectsOfType<InteractObject>();
 	}
 	
 	void Update ()
@@ -45,5 +49,12 @@ public class Player_Controller : MonoBehaviour {
             sr.flipX = true;
         }
 
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            foreach(InteractObject i in interactables)
+            {
+                i.Interact();
+            }
+        }
     }
 }

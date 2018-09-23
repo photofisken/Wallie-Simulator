@@ -3,31 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[System.Serializable]
-public class Need
-{
-    public string name;
-    [Range(0f, 1f)]
-    public float value = 1f;
-    public float time = 60f;
-    public UnityEvent action;
-}
-
 public enum CatAction
 {
-    sleeping, idle, walking, eating, jumping, peeing, complaining
-}
-
-public enum CatMood
-{
-    happy, hungry, tired, pee
+    idle, walking, busy
 }
 
 public class CatBehaviour : MonoBehaviour
 {
     [Header("State")]
     public CatAction action = CatAction.idle;
-    public CatMood mood = CatMood.happy;
+    public NodeType type = NodeType.standard;
 
     [Header("AI")]
     [SerializeField]
@@ -39,27 +24,97 @@ public class CatBehaviour : MonoBehaviour
     [SerializeField]
     private List<CatNode> path;
 
+    [SerializeField]
+    private float decideTime = 2f;
+    [SerializeField]
+    private float busyTimer = 1f;
+
     [Header("Needs")]
-    public Need[] needs;
+    private Need[] needs;
 
     private void Start()
     {
         nodes = FindObjectsOfType<CatNode>();
+        needs = GetComponents<Need>();
     }
 
     private void Update ()
     {
-        foreach(Need need in needs)
+        foreach (Need need in needs)
         {
             need.value -= Time.deltaTime / need.time;
             need.value = Mathf.Clamp01(need.value);
+
+            if (need.value <= 0.01f && type == NodeType.standard)
+            {
+                decideTime = Random.Range(3f, 6f);
+                type = need.type;
+                Decide();
+                return;
+            }
         }
 
-        if(Input.GetKeyDown(KeyCode.Space))
+        switch(action)
+        {
+            case CatAction.idle:
+                decideTime -= Time.deltaTime;
+                if (decideTime <= 0f)
+                {
+                    decideTime = Random.Range(3f, 6f);
+                    Decide();
+                }
+                break;
+
+            case CatAction.busy:
+                busyTimer -= Time.deltaTime;
+                if(busyTimer <= 0f)
+                {
+                    action = CatAction.idle;
+
+                }
+                break;
+
+            case CatAction.walking:
+                if(path.Count > 0)
+                    Walk();
+                break;
+        }
+    }
+
+    private void Decide()
+    {
+        switch(type)
+        {
+            case NodeType.pee:
+                target = FindTarget(NodeType.pee);
+                break;
+            case NodeType.food:
+                target = FindTarget(NodeType.food);
+                break;
+            case NodeType.sleep:
+                target = FindTarget(NodeType.sleep);
+                break;
+
+            default:
+                target = FindTarget(NodeType.standard);
+                break;
+        }
+        if (current != target)
         {
             FindPath(current, target);
-            target = nodes[Random.Range(0, nodes.Length)];
+            action = CatAction.walking;
         }
+    }
+
+    public CatNode FindTarget(NodeType type)
+    {
+        List<CatNode> targets = new List<CatNode>();
+        foreach(CatNode node in nodes)
+        {
+            if(node.type == type)
+                targets.Add(node);
+        }
+        return targets[Random.Range(0, targets.Count)];
     }
 
     public void FindPath(CatNode start, CatNode target)
@@ -111,9 +166,6 @@ public class CatBehaviour : MonoBehaviour
 
     private void RetracePath(CatNode start, CatNode end)
     {
-        foreach (CatNode node in nodes)
-            node.active = false;
-
         List<CatNode> path = new List<CatNode>();
         CatNode currentNode = end;
         while(currentNode != start)
@@ -123,13 +175,33 @@ public class CatBehaviour : MonoBehaviour
         }
 
         path.Reverse();
-        end.active = true;
-        current.active = true;
-        foreach(CatNode node in path)
-        {
-            node.active = true;
-        }
+
         this.path = path;
+    }
+
+    private void Walk()
+    {
+        Vector3 dir = path[0].transform.position - transform.position;
+        dir.Normalize();
+
+        GetComponent<SpriteRenderer>().flipX = dir.x < 0f;
+
+        transform.position += dir / 6f;
+        if(Vector3.Distance(transform.position, path[0].transform.position) < 1f)
+        {
+            if (path[0] == target)
+            {
+                if (target.type == NodeType.standard)
+                    action = CatAction.idle;
+                else
+                {
+                    action = CatAction.busy;
+                    busyTimer = 10f;
+                }
+            }
+            current = path[0];
+            path.RemoveAt(0);
+        }
     }
 
     private float GetDistance(CatNode a, CatNode b)

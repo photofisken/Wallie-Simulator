@@ -160,7 +160,6 @@ MonoBehaviour:
   gCost: 0
   hCost: 0
   parent: {fileID: 0}
-  active: 0
 --- !u!1 &50774336
 GameObject:
   m_ObjectHideFlags: 0
@@ -658,11 +657,9 @@ MonoBehaviour:
   - {fileID: 540694825}
   - {fileID: 1132014036}
   - {fileID: 1579497440}
-  - {fileID: 1215944599}
   gCost: 0
   hCost: 0
   parent: {fileID: 0}
-  active: 0
 --- !u!4 &184638159
 Transform:
   m_ObjectHideFlags: 0
@@ -872,7 +869,6 @@ MonoBehaviour:
   gCost: 0
   hCost: 0
   parent: {fileID: 0}
-  active: 0
 --- !u!1 &308745281
 GameObject:
   m_ObjectHideFlags: 0
@@ -883,6 +879,7 @@ GameObject:
   - component: {fileID: 308745283}
   - component: {fileID: 308745282}
   - component: {fileID: 308745284}
+  - component: {fileID: 308745285}
   m_Layer: 0
   m_Name: bed
   m_TagString: Untagged
@@ -974,6 +971,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 16, y: 31}
   m_EdgeRadius: 0
+--- !u!114 &308745285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 308745281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8a7ab20fc80ab747b524870fa696d59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &349347273
 GameObject:
   m_ObjectHideFlags: 0
@@ -1170,7 +1178,6 @@ MonoBehaviour:
   gCost: 0
   hCost: 0
   parent: {fileID: 0}
-  active: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1297,7 +1304,6 @@ MonoBehaviour:
   gCost: 0
   hCost: 0
   parent: {fileID: 0}
-  active: 0
 --- !u!1 &644930063
 GameObject:
   m_ObjectHideFlags: 0
@@ -1495,7 +1501,6 @@ MonoBehaviour:
   gCost: 0
   hCost: 0
   parent: {fileID: 0}
-  active: 0
 --- !u!1 &789450993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1542,7 +1547,6 @@ MonoBehaviour:
   gCost: 0
   hCost: 0
   parent: {fileID: 0}
-  active: 0
 --- !u!1 &802737050
 GameObject:
   m_ObjectHideFlags: 0
@@ -1692,7 +1696,6 @@ MonoBehaviour:
   gCost: 0
   hCost: 0
   parent: {fileID: 0}
-  active: 0
 --- !u!4 &835391062
 Transform:
   m_ObjectHideFlags: 0
@@ -1903,7 +1906,6 @@ MonoBehaviour:
   gCost: 0
   hCost: 0
   parent: {fileID: 0}
-  active: 0
 --- !u!1 &1119723525
 GameObject:
   m_ObjectHideFlags: 0
@@ -1913,6 +1915,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1119723527}
   - component: {fileID: 1119723526}
+  - component: {fileID: 1119723528}
   m_Layer: 0
   m_Name: phone
   m_TagString: Untagged
@@ -1979,6 +1982,17 @@ Transform:
   m_Father: {fileID: 167661632}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1119723528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1119723525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44f4415bd200e364d8237b7fc157ab2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1132014034
 GameObject:
   m_ObjectHideFlags: 0
@@ -2030,7 +2044,6 @@ MonoBehaviour:
   gCost: 0
   hCost: 0
   parent: {fileID: 0}
-  active: 0
 --- !u!1 &1166128740
 GameObject:
   m_ObjectHideFlags: 0
@@ -2338,7 +2351,6 @@ MonoBehaviour:
   gCost: 0
   hCost: 0
   parent: {fileID: 0}
-  active: 0
 --- !u!1 &1179266383
 GameObject:
   m_ObjectHideFlags: 0
@@ -2459,11 +2471,9 @@ MonoBehaviour:
   - {fileID: 1132014036}
   - {fileID: 1579497440}
   - {fileID: 1066769536}
-  - {fileID: 184638158}
   gCost: 0
   hCost: 0
   parent: {fileID: 0}
-  active: 0
 --- !u!1 &1232561708
 GameObject:
   m_ObjectHideFlags: 0
@@ -2681,7 +2691,6 @@ MonoBehaviour:
   gCost: 0
   hCost: 0
   parent: {fileID: 0}
-  active: 0
 --- !u!1 &1357755467
 GameObject:
   m_ObjectHideFlags: 0
@@ -2693,6 +2702,9 @@ GameObject:
   - component: {fileID: 1357755468}
   - component: {fileID: 1357755470}
   - component: {fileID: 1357755471}
+  - component: {fileID: 1357755474}
+  - component: {fileID: 1357755473}
+  - component: {fileID: 1357755472}
   m_Layer: 0
   m_Name: Mizzy
   m_TagString: Untagged
@@ -2770,56 +2782,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb3401ae58811f94daf0371c5c358423, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  action: 1
-  mood: 0
+  action: 0
+  type: 0
   current: {fileID: 184638158}
   nodes: []
   target: {fileID: 0}
   path: []
-  needs:
-  - name: Hunger
-    value: 1
-    time: 60
-    action:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1357755470}
-          m_MethodName: 
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: 
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-  - name: Sleep
-    value: 1
-    time: 60
-    action:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-  - name: Play
-    value: 1
-    time: 60
-    action:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-  - name: Pee
-    value: 1
-    time: 60
-    action:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
+  decideTime: 2
+  busyTimer: 1
 --- !u!114 &1357755471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2833,6 +2803,60 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dynamic: 1
   yOffset: 0
+--- !u!114 &1357755472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1357755467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aed61c82f4c5c73448284de1ee7a48b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  needName: 
+  type: 0
+  value: 1
+  time: 45
+  refreshTime: 0
+  refreshTimer: 0
+  refresh: 0
+--- !u!114 &1357755473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1357755467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aed61c82f4c5c73448284de1ee7a48b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  needName: 
+  type: 0
+  value: 1
+  time: 90
+  refreshTime: 0
+  refreshTimer: 0
+  refresh: 0
+--- !u!114 &1357755474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1357755467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aed61c82f4c5c73448284de1ee7a48b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  needName: 
+  type: 0
+  value: 1
+  time: 60
+  refreshTime: 0
+  refreshTimer: 0
+  refresh: 0
 --- !u!1 &1381688787
 GameObject:
   m_ObjectHideFlags: 0
@@ -2950,13 +2974,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   neighbors:
-  - {fileID: 1579497440}
   - {fileID: 1132014036}
   - {fileID: 1344027077}
   gCost: 0
   hCost: 0
   parent: {fileID: 0}
-  active: 0
 --- !u!1 &1579497438
 GameObject:
   m_ObjectHideFlags: 0
@@ -3003,11 +3025,9 @@ MonoBehaviour:
   - {fileID: 1215944599}
   - {fileID: 184638158}
   - {fileID: 1132014036}
-  - {fileID: 1461252734}
   gCost: 0
   hCost: 0
   parent: {fileID: 0}
-  active: 0
 --- !u!1 &1621144384
 GameObject:
   m_ObjectHideFlags: 0
@@ -4228,6 +4248,7 @@ MonoBehaviour:
   - {fileID: 21300002, guid: b78295a1fdd4a3c43a9321829ca91567, type: 3}
   - {fileID: 21300000, guid: b78295a1fdd4a3c43a9321829ca91567, type: 3}
   - {fileID: 21300004, guid: b78295a1fdd4a3c43a9321829ca91567, type: 3}
+  interactables: []
 --- !u!95 &2075670116
 Animator:
   serializedVersion: 3
