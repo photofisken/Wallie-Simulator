@@ -11,6 +11,9 @@ public class Player_Controller : MonoBehaviour {
 
     private SpriteRenderer sr;
 
+    private float horizontal;
+    private float vertical;
+
     public InteractObject[] interactables;
 
 	void Start ()
@@ -21,29 +24,41 @@ public class Player_Controller : MonoBehaviour {
 	
 	void Update ()
     {
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
 
-        Vector3 movement = new Vector3(horizontal, vertical, 0f);
-        movement.Normalize();
+        Vector3 mousePos = new Vector3(horizontal, vertical, 0f);
 
-        transform.position += movement * speed * Time.deltaTime;
+        // Direction to mouse pos
+        Vector3 dir = mousePos - transform.position;
 
-        if (vertical >= 0.9)
+        if (dir.magnitude > 1f)
+            dir.Normalize();
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector2 clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Debug.Log("Clicked this position: " + clickPosition);
+
+            horizontal = clickPosition.x; //Input.GetAxisRaw("Horizontal");
+            vertical = clickPosition.y; //Input.GetAxisRaw("Vertical");
+            Debug.Log("direction: " + dir);
+        }
+
+
+        if (vertical >= transform.position.y)
         {
             sr.sprite = wallieWalking[2];
         }
-        else if(vertical <= -0.9f)
+        else if(vertical <= transform.position.y)
         {
             sr.sprite = wallieWalking[0];
         }
 
-        if (horizontal >= 0.9)
+        if (horizontal >= transform.position.x)
         {
             sr.sprite = wallieWalking[1];
             sr.flipX = false;
         }
-        else if(horizontal <= -0.9f)
+        else if(horizontal <= transform.position.x)
         {           
             sr.sprite = wallieWalking[1];
             sr.flipX = true;
@@ -56,5 +71,9 @@ public class Player_Controller : MonoBehaviour {
                 i.Interact();
             }
         }
+
+
+        transform.position += dir * speed * Time.deltaTime;
+
     }
 }
