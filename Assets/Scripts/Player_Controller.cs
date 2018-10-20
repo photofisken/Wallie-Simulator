@@ -16,6 +16,9 @@ public class Player_Controller : MonoBehaviour {
 
     public InteractObject[] interactables;
 
+    Vector3 mousePos;
+    Vector3 dir;
+
 	void Start ()
     {
         sr = GetComponent<SpriteRenderer>();
@@ -24,11 +27,8 @@ public class Player_Controller : MonoBehaviour {
 	
 	void Update ()
     {
-
-        Vector3 mousePos = new Vector3(horizontal, vertical, 0f);
-
         // Direction to mouse pos
-        Vector3 dir = mousePos - transform.position;
+        dir = mousePos - transform.position;
 
         if (dir.magnitude > 1f)
             dir.Normalize();
@@ -36,33 +36,39 @@ public class Player_Controller : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         {
             Vector2 clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Debug.Log("Clicked this position: " + clickPosition);
 
             horizontal = clickPosition.x; //Input.GetAxisRaw("Horizontal");
             vertical = clickPosition.y; //Input.GetAxisRaw("Vertical");
-            Debug.Log("direction: " + dir);
+
+            mousePos = new Vector3(horizontal, vertical, 0f);
+
+            // Direction to mouse pos
+            dir = mousePos - transform.position;
+
+            if (dir.magnitude > 1f)
+                dir.Normalize();
+
+            //Debug.Log("Clicked this position: " + clickPosition + ", direction: " + dir + ", returned " + DirectionSprite(dir));
+            switch (DirectionSprite(dir))
+            {
+                case 0: // Right
+                    sr.sprite = wallieWalking[1];
+                    sr.flipX = false;
+                    break;
+                case 1: // Left
+                    sr.sprite = wallieWalking[1];
+                    sr.flipX = true;
+                    break;
+                case 2: // Up
+                    sr.sprite = wallieWalking[2];
+                    break;
+                case 3: // Down
+                    sr.sprite = wallieWalking[0];
+                    break;
+            }
         }
 
-
-        if (vertical >= transform.position.y)
-        {
-            sr.sprite = wallieWalking[2];
-        }
-        else if(vertical <= transform.position.y)
-        {
-            sr.sprite = wallieWalking[0];
-        }
-
-        if (horizontal >= transform.position.x)
-        {
-            sr.sprite = wallieWalking[1];
-            sr.flipX = false;
-        }
-        else if(horizontal <= transform.position.x)
-        {           
-            sr.sprite = wallieWalking[1];
-            sr.flipX = true;
-        }
+        transform.position += dir * speed * Time.deltaTime;
 
         if(Input.GetKeyDown(KeyCode.Space))
         {
@@ -72,8 +78,41 @@ public class Player_Controller : MonoBehaviour {
             }
         }
 
+    }
 
-        transform.position += dir * speed * Time.deltaTime;
+    private int DirectionSprite(Vector3 direction)
+    {
+        if (direction.magnitude > 0.01f)
+        {
+            if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+            {
+                // Right
+                if (direction.x > 0)
+                {
+                    return 0;                 
+                }
+                // Left
+                else
+                {
+                    return 1;
+                }
 
+            }
+            else
+            {
+                // Up
+                if (direction.y > 0)
+                {
+                    return 2;
+                }
+                // Down
+                else
+                {
+                    return 3;
+                }
+            }
+        }
+        else
+            return -1;
     }
 }
