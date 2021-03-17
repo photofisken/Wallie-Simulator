@@ -31,6 +31,8 @@ public class CatNode : MonoBehaviour
     {
         if (sprites.Length > 0)
         {
+            if (GetComponent<StateObject>())
+                GetComponent<StateObject>().Use();
             target.sprite = sprites[1];
         }
     }

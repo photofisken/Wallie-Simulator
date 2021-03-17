@@ -6,6 +6,6 @@ public class InteractObject : MonoBehaviour
 {
     public virtual void Interact()
     {
-        Debug.Log("Jag är ett standardobjekt");
+        Debug.Log("Interacted with " + transform.name);
     }
 }
